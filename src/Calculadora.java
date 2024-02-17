@@ -58,25 +58,45 @@ public class Calculadora extends JFrame implements ActionListener {
                 pantalla.setText(comando);
                 nuevaOperacion = false;
             }
-
-            else {
-                pantalla.setText(pantalla.getText() + comando);
-            }
+            pantalla.setText(pantalla.getText() + comando);
         } else if ("+-*/".contains(comando)){
-            if (!nuevaOperacion){
-                calcularOperacion();
-                operacion = comando;
-                resultado = Double.parseDouble(pantalla.getText());
-                nuevaOperacion = true;
-            }
-        } else if (comando.equals("=")){
-            calcularOperacion();
-            operacion = "";
-        } else if (comando.equals("C")){
+            resultado = Double.parseDouble(pantalla.getText());
+            operacion = comando;
+            nuevaOperacion = true;
+        } else if ("=".equals(comando)) {
+            realizarOperacion(Double.parseDouble(pantalla.getText()));
+            operacion = "=";
+            nuevaOperacion = true;
+        } else if ("C".equals(comando)){
             resultado = 0;
             pantalla.setText("0");
             nuevaOperacion = true;
         }
+    }
 
+    private void realizarOperacion(double numero){
+        switch (operacion){
+            case "+":
+                resultado += numero;
+                break;
+            case "-":
+                resultado -= numero;
+                break;
+            case "*":
+                resultado *= numero;
+                break;
+            case "/":
+                resultado /= numero;
+                break;
+        }
+
+        pantalla.setText(String.valueOf(resultado));
+    }
+
+    public static void main(String[] args){
+        SwingUtilities.invokeLater(() -> {
+            Calculadora calculadora = new Calculadora();
+            calculadora.setVisible(true);
+        });
     }
 }
